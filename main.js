@@ -23,6 +23,9 @@ addBookToLibrary("Swimming", "Fisher Man", 190, false);
 
 function displayBook() {
   const libraryDiv = document.querySelector("#library");
+  const addButton = document.createElement("button");
+  addButton.textContent = "+";
+  addButton.classList.add("add-button");
 
   for (let i = 0; i < library.length; i++) {
     const div = document.createElement("div");
@@ -50,6 +53,7 @@ function displayBook() {
     div.appendChild(editButton);
 
     libraryDiv.appendChild(div);
+    libraryDiv.appendChild(addButton);
   }
 }
 

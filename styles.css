@@ -51,6 +51,7 @@ body {
 .delete-button:hover {
   color: red;
   font-weight: 900;
+  cursor: pointer;
 }
 
 .edit-button {
@@ -65,4 +66,17 @@ body {
 .edit-button:hover {
   color: black;
   font-weight: 900;
+  cursor: pointer;
+}
+
+.add-button {
+  border: 0;
+  border-radius: 5px;
+  font-size: 3rem;
+  opacity: 0.6;
+}
+
+.add-button:hover {
+  opacity: 1;
+  cursor: pointer;
 }
