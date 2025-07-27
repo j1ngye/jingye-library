@@ -26,6 +26,7 @@ function displayBook() {
 
   for (let i = 0; i < library.length; i++) {
     const div = document.createElement("div");
+    div.classList.add("book");
     const titleElement = document.createElement("h2");
     const authorElement = document.createElement("h3");
     const pagesElement = document.createElement("p");
