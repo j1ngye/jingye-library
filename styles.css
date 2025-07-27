@@ -1,1 +1,40 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#library {
+  margin-top: 50px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 150px);
+}
+
+.book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  height: 200px;
+
+  background-color: burlywood;
+  border-radius: 5px;
+}
+
+.book p {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.book.finished {
+  opacity: 0.2;
+}

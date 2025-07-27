@@ -1,5 +1,5 @@
 // Initialize a library array for storing books.
-const library = [];
+let library = [];
 
 // Initialize Book constructor for books.
 function Book(title, author, pages, read) {
@@ -26,6 +26,9 @@ function displayBook() {
 
   for (let i = 0; i < library.length; i++) {
     const div = document.createElement("div");
+    if (library[i].read) {
+      div.classList.add("book", "finished");
+    }
     div.classList.add("book");
     const titleElement = document.createElement("h2");
     const authorElement = document.createElement("h3");
@@ -43,11 +46,9 @@ function displayBook() {
   }
 }
 
-displayBook();
-
-function deleteBook(id) {
+function deleteBook(title) {
   const index = library.findIndex((book) => {
-    return book.id === id;
+    return book.title === title;
   });
   library.splice(index, 1);
   return `Deleted`;
@@ -58,10 +59,12 @@ function editBook(title, author, pages, read, index) {
   return `Edited`;
 }
 
-function toggleRead(id) {
+function toggleRead(title) {
   const index = library.findIndex((book) => {
-    return book.id === id;
+    return book.title === title;
   });
   library[index].read = library[index].read ? false : true;
   return "Toggled";
 }
+
+displayBook();
