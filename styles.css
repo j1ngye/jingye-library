@@ -81,6 +81,21 @@ body {
   cursor: pointer;
 }
 
+.read-button {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-color: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.read-button:hover {
+  color: black;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 form {
   display: flex;
   justify-content: center;

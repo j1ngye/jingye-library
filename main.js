@@ -16,30 +16,63 @@ const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
 const pagesInput = document.querySelector("#pages");
 const submitButton = document.querySelector(".submit");
+let isEditing = false;
+let currentEditingId = null;
 
-submitButton.addEventListener("click", (e) => {
+// Create and add the add button
+const addButton = document.createElement("button");
+addButton.textContent = "+";
+addButton.classList.add("add-button");
+libraryDiv.appendChild(addButton);
+
+// Add button event listener
+addButton.addEventListener("click", () => {
+  isEditing = false;
+  currentEditingId = null;
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  formElement.classList.remove("hide");
+});
+
+// Submit form handler
+formElement.addEventListener("submit", (e) => {
   e.preventDefault();
   if (formElement.checkValidity()) {
-    addBookToLibrary(
-      titleInput.value,
-      authorInput.value,
-      pagesInput.value,
-      false
-    );
+    if (isEditing) {
+      // Update existing book
+      const bookIndex = library.findIndex(
+        (book) => book.id === currentEditingId
+      );
+      if (bookIndex !== -1) {
+        library[bookIndex] = new Book(
+          titleInput.value,
+          authorInput.value,
+          pagesInput.value,
+          library[bookIndex].read,
+          currentEditingId
+        );
+      }
+    } else {
+      // Add new book
+      addBookToLibrary(
+        titleInput.value,
+        authorInput.value,
+        pagesInput.value,
+        false
+      );
+    }
+
+    // Reset form
     titleInput.value = "";
     authorInput.value = "";
     pagesInput.value = "";
     formElement.classList.add("hide");
+    displayBook();
   } else {
     formElement.reportValidity();
   }
-
-  displayBook();
 });
-
-const addButton = document.createElement("button");
-addButton.textContent = "+";
-addButton.classList.add("add-button");
 
 // Add some sample books for visualization
 addBookToLibrary("Basketball", "Michael Jordan", 410, false);
@@ -49,6 +82,7 @@ addBookToLibrary("Swimming", "Fisher Man", 190, false);
 
 function displayBook() {
   libraryDiv.innerHTML = "";
+
   for (let i = 0; i < library.length; i++) {
     const div = document.createElement("div");
     const titleElement = document.createElement("h2");
@@ -56,85 +90,59 @@ function displayBook() {
     const pagesElement = document.createElement("p");
     const deleteButton = document.createElement("button");
     const editButton = document.createElement("button");
+    const readButton = document.createElement("button");
+
     if (library[i].read) {
       div.classList.add("book", "finished");
     }
     div.classList.add("book");
+
     deleteButton.classList.add("delete-button");
     editButton.classList.add("edit-button");
+    readButton.classList.add("read-button");
 
     titleElement.textContent = library[i].title;
     authorElement.textContent = library[i].author;
-    pagesElement.textContent = library[i].pages;
+    pagesElement.textContent = `${library[i].pages} pages`;
     deleteButton.textContent = "x";
     editButton.textContent = "Edit";
+    readButton.textContent = library[i].read ? "Read" : "Not Read";
 
     div.appendChild(titleElement);
     div.appendChild(authorElement);
     div.appendChild(pagesElement);
+    div.appendChild(readButton);
     div.appendChild(deleteButton);
     div.appendChild(editButton);
 
     libraryDiv.appendChild(div);
 
-    deleteButton.addEventListener("click", (e) => {
-      e.target.parentNode.remove();
+    deleteButton.addEventListener("click", () => {
+      library = library.filter((book) => book.id !== library[i].id);
+      displayBook();
     });
-    addButton.addEventListener("click", () => {
+
+    editButton.addEventListener("click", () => {
+      isEditing = true;
+      currentEditingId = library[i].id;
+      titleInput.value = library[i].title;
+      authorInput.value = library[i].author;
+      pagesInput.value = library[i].pages;
       formElement.classList.remove("hide");
     });
-    editButton.addEventListener("click", (e) => {
-      // Get the book being edited
-      const bookDiv = e.target.parentNode;
-      const bookTitle = bookDiv.querySelector("h2").textContent;
-      const bookIndex = library.findIndex((book) => book.title === bookTitle);
 
-      titleInput.value = library[bookIndex].title;
-      authorInput.value = library[bookIndex].author;
-      pagesInput.value = library[bookIndex].pages;
-
-      // Show the form
-      formElement.classList.remove("hide");
-
-      // Change submit button to work as "Save" for editing
-      submitButton.onclick = (e) => {
-        e.preventDefault();
-        if (formElement.checkValidity()) {
-          // Update the book in library
-          library[bookIndex] = new Book(
-            titleInput.value,
-            authorInput.value,
-            pagesInput.value,
-            library[bookIndex].read,
-            library[bookIndex].id
-          );
-
-          // Reset form
-          titleInput.value = "";
-          authorInput.value = "";
-          pagesInput.value = "";
-          formElement.classList.add("hide");
-          displayBook();
-        } else {
-          formElement.reportValidity();
-        }
-      };
+    readButton.addEventListener("click", () => {
+      library[i].read = !library[i].read;
+      displayBook();
     });
   }
+
   libraryDiv.appendChild(addButton);
 }
 
 function addBookToLibrary(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   library.push(book);
-}
-
-function toggleRead(title) {
-  const index = library.findIndex((book) => {
-    return book.title === title;
-  });
-  library[index].read = library[index].read ? false : true;
-  return "Toggled";
 }
 
 displayBook();
