@@ -15,6 +15,11 @@ function addBookToLibrary(title, author, pages, read) {
   library.push(book);
 }
 
+const libraryDiv = document.querySelector("#library");
+const addButton = document.createElement("button");
+addButton.textContent = "+";
+addButton.classList.add("add-button");
+
 // Add some sample books for visualization
 addBookToLibrary("Basketball", "Michael Jordan", 410, false);
 addBookToLibrary("Baseball", "Stephen Curry", 302, false);
@@ -22,11 +27,6 @@ addBookToLibrary("Ping Pong", "Klay Thomson", 223, false);
 addBookToLibrary("Swimming", "Fisher Man", 190, false);
 
 function displayBook() {
-  const libraryDiv = document.querySelector("#library");
-  const addButton = document.createElement("button");
-  addButton.textContent = "+";
-  addButton.classList.add("add-button");
-
   for (let i = 0; i < library.length; i++) {
     const div = document.createElement("div");
     if (library[i].read) {
@@ -54,15 +54,13 @@ function displayBook() {
 
     libraryDiv.appendChild(div);
     libraryDiv.appendChild(addButton);
+
+    deleteButton.addEventListener("click", (e) => deleteBook(e));
   }
 }
 
-function deleteBook(title) {
-  const index = library.findIndex((book) => {
-    return book.title === title;
-  });
-  library.splice(index, 1);
-  return `Deleted`;
+function deleteBook(e) {
+  e.target.parentNode.remove();
 }
 
 function editBook(title, author, pages, read, index) {
