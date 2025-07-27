@@ -80,3 +80,13 @@ body {
   opacity: 1;
   cursor: pointer;
 }
+
+form {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+form.hide {
+  display: none;
+}
