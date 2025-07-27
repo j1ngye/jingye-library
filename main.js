@@ -26,6 +26,9 @@ submitButton.addEventListener("click", (e) => {
       pagesInput.value,
       false
     );
+    titleInput.value = "";
+    authorInput.value = "";
+    pagesInput.value = "";
     formElement.classList.add("hide");
   } else {
     formElement.reportValidity();
@@ -74,9 +77,48 @@ function displayBook() {
 
     libraryDiv.appendChild(div);
 
-    deleteButton.addEventListener("click", (e) => deleteBook(e));
+    deleteButton.addEventListener("click", (e) => {
+      e.target.parentNode.remove();
+    });
     addButton.addEventListener("click", () => {
-      document.querySelector("form").classList.remove("hide");
+      formElement.classList.remove("hide");
+    });
+    editButton.addEventListener("click", (e) => {
+      // Get the book being edited
+      const bookDiv = e.target.parentNode;
+      const bookTitle = bookDiv.querySelector("h2").textContent;
+      const bookIndex = library.findIndex((book) => book.title === bookTitle);
+
+      titleInput.value = library[bookIndex].title;
+      authorInput.value = library[bookIndex].author;
+      pagesInput.value = library[bookIndex].pages;
+
+      // Show the form
+      formElement.classList.remove("hide");
+
+      // Change submit button to work as "Save" for editing
+      submitButton.onclick = (e) => {
+        e.preventDefault();
+        if (formElement.checkValidity()) {
+          // Update the book in library
+          library[bookIndex] = new Book(
+            titleInput.value,
+            authorInput.value,
+            pagesInput.value,
+            library[bookIndex].read,
+            library[bookIndex].id
+          );
+
+          // Reset form
+          titleInput.value = "";
+          authorInput.value = "";
+          pagesInput.value = "";
+          formElement.classList.add("hide");
+          displayBook();
+        } else {
+          formElement.reportValidity();
+        }
+      };
     });
   }
   libraryDiv.appendChild(addButton);
@@ -85,15 +127,6 @@ function displayBook() {
 function addBookToLibrary(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   library.push(book);
-}
-
-function deleteBook(e) {
-  e.target.parentNode.remove();
-}
-
-function editBook(title, author, pages, read, index) {
-  library.splice(index, 1, new Book(title, author, pages, read, index));
-  return `Edited`;
 }
 
 function toggleRead(title) {
