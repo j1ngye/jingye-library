@@ -20,6 +20,7 @@ body {
 }
 
 .book {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,4 +38,31 @@ body {
 
 .book.finished {
   opacity: 0.2;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+}
+
+.delete-button:hover {
+  color: red;
+  font-weight: 900;
+}
+
+.edit-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-button:hover {
+  color: black;
+  font-weight: 900;
 }

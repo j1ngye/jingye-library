@@ -33,14 +33,21 @@ function displayBook() {
     const titleElement = document.createElement("h2");
     const authorElement = document.createElement("h3");
     const pagesElement = document.createElement("p");
-
+    const deleteButton = document.createElement("button");
+    const editButton = document.createElement("button");
+    deleteButton.classList.add("delete-button");
+    editButton.classList.add("edit-button");
     titleElement.textContent = library[i].title;
     authorElement.textContent = library[i].author;
     pagesElement.textContent = library[i].pages;
+    deleteButton.textContent = "x";
+    editButton.textContent = "Edit";
 
     div.appendChild(titleElement);
     div.appendChild(authorElement);
     div.appendChild(pagesElement);
+    div.appendChild(deleteButton);
+    div.appendChild(editButton);
 
     libraryDiv.appendChild(div);
   }
