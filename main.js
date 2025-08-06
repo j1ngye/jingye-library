@@ -2,12 +2,22 @@
 let library = [];
 
 // Initialize Book constructor for books.
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = crypto.randomUUID();
+// function Book(title, author, pages, read) {
+//   this.title = title;
+//   this.author = author;
+//   this.pages = pages;
+//   this.read = read;
+//   this.id = crypto.randomUUID();
+// }
+
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = crypto.randomUUID();
+  }
 }
 
 const libraryDiv = document.querySelector("#library");
@@ -75,10 +85,10 @@ formElement.addEventListener("submit", (e) => {
 });
 
 // Add some sample books for visualization
-addBookToLibrary("Basketball", "Michael Jordan", 410, false);
-addBookToLibrary("Baseball", "Stephen Curry", 302, false);
-addBookToLibrary("Ping Pong", "Klay Thomson", 223, false);
-addBookToLibrary("Swimming", "Fisher Man", 190, false);
+addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281, false);
+addBookToLibrary("1984", "George Orwell", 328, false);
+addBookToLibrary("Animal Farm", "George Orwell", 112, false);
+addBookToLibrary("The Catcher in the Rye", "J.D. Salinger", 234, false);
 
 function displayBook() {
   libraryDiv.innerHTML = "";
@@ -104,7 +114,7 @@ function displayBook() {
     titleElement.textContent = library[i].title;
     authorElement.textContent = library[i].author;
     pagesElement.textContent = `${library[i].pages} pages`;
-    deleteButton.textContent = "x";
+    deleteButton.textContent = "";
     editButton.textContent = "Edit";
     readButton.textContent = library[i].read ? "Read" : "Not Read";
 

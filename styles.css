@@ -10,13 +10,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #e4e0e1;
 }
 
 #library {
   margin-top: 50px;
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(5, 150px);
+  gap: 10px;
+  grid-template-columns: repeat(5, 200px);
+  grid-template-rows: 200px 200px;
+  align-content: center;
+  justify-content: center;
+  background-color: #d6c0b3;
+  width: 90%;
+  height: 80%;
+  border-radius: 20px;
 }
 
 .book {
@@ -26,9 +34,9 @@ body {
   align-items: center;
   justify-content: space-evenly;
   gap: 10px;
-  height: 200px;
-
-  background-color: burlywood;
+  padding: 10px;
+  border-left: 5px solid #493628;
+  background-color: #ab886d;
   border-radius: 5px;
 }
 
@@ -37,20 +45,25 @@ body {
 }
 
 .book.finished {
-  opacity: 0.2;
+  background-color: #493628;
+  border-left: 5px solid #ab886d;
 }
 
 .delete-button {
   position: absolute;
   top: 5px;
   right: 5px;
-  background-color: transparent;
+  background-color: rgb(220, 215, 201);
+  width: 10px;
+  height: 10px;
+  text-align: center;
+  padding: 2px;
   border: none;
+  border-radius: 50%;
 }
 
 .delete-button:hover {
-  color: red;
-  font-weight: 900;
+  background-color: red;
   cursor: pointer;
 }
 
@@ -70,6 +83,7 @@ body {
 }
 
 .add-button {
+  height: 200px;
   border: 0;
   border-radius: 5px;
   font-size: 3rem;
@@ -88,6 +102,7 @@ body {
   background-color: transparent;
   border: none;
   color: rgba(0, 0, 0, 0.5);
+  font-size: 0.7rem;
 }
 
 .read-button:hover {
@@ -104,4 +119,12 @@ form {
 
 form.hide {
   display: none;
+}
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  font-family: cursive;
 }
