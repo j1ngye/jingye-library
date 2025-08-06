@@ -92,8 +92,7 @@ addBookToLibrary("The Catcher in the Rye", "J.D. Salinger", 234, false);
 
 function displayBook() {
   libraryDiv.innerHTML = "";
-
-  for (let i = 0; i < library.length; i++) {
+  library.forEach((book) => {
     const div = document.createElement("div");
     const titleElement = document.createElement("h2");
     const authorElement = document.createElement("h3");
@@ -102,21 +101,24 @@ function displayBook() {
     const editButton = document.createElement("button");
     const readButton = document.createElement("button");
 
-    if (library[i].read) {
+    deleteButton.classList.add("delete-button");
+    deleteButton.dataset.id = book.id;
+    editButton.classList.add("edit-button");
+    editButton.dataset.id = book.id;
+    readButton.classList.add("read-button");
+    readButton.dataset.id = book.id;
+
+    if (book.read) {
       div.classList.add("book", "finished");
     }
     div.classList.add("book");
 
-    deleteButton.classList.add("delete-button");
-    editButton.classList.add("edit-button");
-    readButton.classList.add("read-button");
-
-    titleElement.textContent = library[i].title;
-    authorElement.textContent = library[i].author;
-    pagesElement.textContent = `${library[i].pages} pages`;
+    titleElement.textContent = book.title;
+    authorElement.textContent = book.author;
+    pagesElement.textContent = `${book.pages} pages`;
     deleteButton.textContent = "";
     editButton.textContent = "Edit";
-    readButton.textContent = library[i].read ? "Read" : "Not Read";
+    readButton.textContent = book.read ? "Read" : "Not Read";
 
     div.appendChild(titleElement);
     div.appendChild(authorElement);
@@ -127,26 +129,32 @@ function displayBook() {
 
     libraryDiv.appendChild(div);
 
-    deleteButton.addEventListener("click", () => {
-      library = library.filter((book) => book.id !== library[i].id);
+    deleteButton.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      library = library.filter((book) => book.id !== id);
       displayBook();
     });
 
-    editButton.addEventListener("click", () => {
+    editButton.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      const bookToEdit = library.find((b) => b.id === id);
+
+      titleInput.value = bookToEdit.title;
+      authorInput.value = bookToEdit.author;
+      pagesInput.value = bookToEdit.pages;
+
       isEditing = true;
-      currentEditingId = library[i].id;
-      titleInput.value = library[i].title;
-      authorInput.value = library[i].author;
-      pagesInput.value = library[i].pages;
+      currentEditingId = bookToEdit.id;
       formElement.classList.remove("hide");
     });
 
-    readButton.addEventListener("click", () => {
-      library[i].read = !library[i].read;
+    readButton.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      const bookToUpdate = library.find((b) => b.id === id);
+      bookToUpdate.read = !bookToUpdate.read;
       displayBook();
     });
-  }
-
+  });
   libraryDiv.appendChild(addButton);
 }
 
