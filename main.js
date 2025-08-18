@@ -1,15 +1,6 @@
 // Initialize a library array for storing books.
 let library = [];
 
-// Initialize Book constructor for books.
-// function Book(title, author, pages, read) {
-//   this.title = title;
-//   this.author = author;
-//   this.pages = pages;
-//   this.read = read;
-//   this.id = crypto.randomUUID();
-// }
-
 class Book {
   constructor(title, author, pages, read) {
     this.title = title;
@@ -29,6 +20,12 @@ const submitButton = document.querySelector(".submit");
 let isEditing = false;
 let currentEditingId = null;
 
+function validateForm() {
+  if (!submitButton.checkValidity()) {
+    submitButton.reportValidity();
+  }
+}
+
 // Create and add the add button
 const addButton = document.createElement("button");
 addButton.textContent = "+";
@@ -47,41 +44,36 @@ addButton.addEventListener("click", () => {
 
 // Submit form handler
 formElement.addEventListener("submit", (e) => {
+  validateForm();
   e.preventDefault();
-  if (formElement.checkValidity()) {
-    if (isEditing) {
-      // Update existing book
-      const bookIndex = library.findIndex(
-        (book) => book.id === currentEditingId
-      );
-      if (bookIndex !== -1) {
-        library[bookIndex] = new Book(
-          titleInput.value,
-          authorInput.value,
-          pagesInput.value,
-          library[bookIndex].read,
-          currentEditingId
-        );
-      }
-    } else {
-      // Add new book
-      addBookToLibrary(
+  if (isEditing) {
+    // Update existing book
+    const bookIndex = library.findIndex((book) => book.id === currentEditingId);
+    if (bookIndex !== -1) {
+      library[bookIndex] = new Book(
         titleInput.value,
         authorInput.value,
         pagesInput.value,
-        false
+        library[bookIndex].read,
+        currentEditingId
       );
     }
-
-    // Reset form
-    titleInput.value = "";
-    authorInput.value = "";
-    pagesInput.value = "";
-    formElement.classList.add("hide");
-    displayBook();
   } else {
-    formElement.reportValidity();
+    // Add new book
+    addBookToLibrary(
+      titleInput.value,
+      authorInput.value,
+      pagesInput.value,
+      false
+    );
   }
+
+  // Reset form
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  formElement.classList.add("hide");
+  displayBook();
 });
 
 // Add some sample books for visualization
