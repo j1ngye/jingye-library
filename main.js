@@ -21,9 +21,11 @@ let isEditing = false;
 let currentEditingId = null;
 
 function validateForm() {
-  if (!submitButton.checkValidity()) {
-    submitButton.reportValidity();
+  if (!formElement.checkValidity()) {
+    formElement.reportValidity();
+    return false;
   }
+  return true;
 }
 
 // Create and add the add button
